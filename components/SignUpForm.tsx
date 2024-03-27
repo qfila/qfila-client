@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { View, StyleSheet, Pressable, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from './ui/inputs';
 import api from '@/modules/api';
+import Toast from 'react-native-toast-message';
+import { useRouter } from 'expo-router';
 
 const yupSchema = yup.object({
     name: yup
@@ -37,16 +39,22 @@ const yupSchema = yup.object({
 
 type YupSchemaType = yup.InferType<typeof yupSchema>;
 
+const showToast = () => {
+  Toast.show({
+    type: 'success',
+    text1: 'Usuário cadastrado',
+    text2: 'Cadastro realizado com sucesso!'
+  });
+}
+
 function SignUpForm() {
   const [error, setError] = useState('');
+  const router = useRouter()
   
   const {
     control,
     handleSubmit,
-    getValues,
     formState: { errors, isSubmitting },
-    register,
-    setValue
   } = useForm<YupSchemaType>({
     resolver: yupResolver(yupSchema),
   });
@@ -61,10 +69,11 @@ function SignUpForm() {
         password,
         role: 'USER',
       });
+      showToast() 
+      router.replace('/login')
     } catch (error) {
       console.error(error);
       setError('Erro inesperado na API')
-      // toast.error(axiosErrorMessageHandler(error as Error));
     }
   };
 

@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 import { Text, View } from '@/components/Themed';
-import SignUpForm from '@/components/SignUpForm';
 import SignInForm from '@/components/SignInForm';
 
 export default function FormScreen() {

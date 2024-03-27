@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { View, StyleSheet, Pressable, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from './ui/inputs';
 import api from '@/modules/api';
+import { useRouter } from 'expo-router';
 
 const yupSchema = yup.object({
   email: yup.string().email('Email inválido').required('Email é obrigatório.'),
@@ -25,14 +26,12 @@ type YupSchemaType = yup.InferType<typeof yupSchema>;
 
 function SignInForm() {
   const [error, setError] = useState('');
+  const router = useRouter()
   
   const {
     control,
     handleSubmit,
-    getValues,
     formState: { errors, isSubmitting },
-    register,
-    setValue
   } = useForm<YupSchemaType>({
     resolver: yupResolver(yupSchema),
   });
@@ -41,15 +40,14 @@ function SignInForm() {
     try {
       setError('');
 
-      await api.post('/login', {
+      await api.post('/auth/login', {
         email,
         password,
-        role: 'USER',
       });
+      router.replace('/home')
     } catch (error) {
       console.error(error);
       setError('Erro inesperado na API')
-      // toast.error(axiosErrorMessageHandler(error as Error));
     }
   };
 
