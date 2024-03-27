@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { View, Button, StyleSheet, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Pressable, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from './ui/inputs';
+import api from '@/modules/api';
 
 const yupSchema = yup.object({
     name: yup
@@ -37,108 +38,136 @@ const yupSchema = yup.object({
 type YupSchemaType = yup.InferType<typeof yupSchema>;
 
 function SignUpForm() {
-    const {
-      control,
-      handleSubmit,
-      getValues,
-      formState: { errors, isSubmitting },
-      register,
-      setValue
-    } = useForm<YupSchemaType>({
-      resolver: yupResolver(yupSchema),
-    });
-
-    const teste = () => {
-      console.log('PRESS')
-    }
+  const [error, setError] = useState('');
+  
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    formState: { errors, isSubmitting },
+    register,
+    setValue
+  } = useForm<YupSchemaType>({
+    resolver: yupResolver(yupSchema),
+  });
 
   const onSubmit = async ({ name, email, password }: YupSchemaType) => {
-    console.log('shodres') 
     try {
-      console.log('shodres') 
-      // await api.post('/user', {
-      //     username: name,
-      //     email,
-      //     password,
-      //     role: isManager ? 'MANAGER' : 'USER',
-      // });
+      setError('');
 
-      // toast.success('Cadastro realizado com sucesso!');
-      // push('/sign-in');
+      await api.post('/user', {
+        username: name,
+        email,
+        password,
+        role: 'USER',
+      });
     } catch (error) {
+      console.error(error);
+      setError('Erro inesperado na API')
       // toast.error(axiosErrorMessageHandler(error as Error));
     }
   };
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <Controller
-          control={control}
-          render={({ field: { onChange, ...restField } }) => (
-            <Input
-              onChangeText={onChange}
-              {...restField}
-              error={!!errors.name}
-              helperText={errors.name?.message}
-              placeholder="Nome completo"
-            />
-          )}
-          name="name"
-        />
+    <View style={styles.container}>
+      <Controller
+        control={control}
+        render={({ field: { onChange, ...restField } }) => (
+          <Input
+            onChangeText={onChange}
+            {...restField}
+            error={!!errors.name}
+            helperText={errors.name?.message}
+            placeholder="Nome completo"
+          />
+        )}
+        name="name"
+      />
 
-        <Controller
-          control={control}
-          render={({ field: { onChange, ...restField } }) => (
-            <Input
-              onChangeText={onChange}
-              {...restField}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-              placeholder="E-mail"
-            />
-          )}
-          name="email"
-        />
+      <Controller
+        control={control}
+        render={({ field: { onChange, ...restField } }) => (
+          <Input
+            onChangeText={onChange}
+            {...restField}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            placeholder="E-mail"
+          />
+        )}
+        name="email"
+      />
 
-        <Controller
-          control={control}
-          render={({ field: { onChange, ...restField } }) => (
-            <Input
-              onChangeText={onChange}
-              {...restField}
-              error={!!errors.password}
-              helperText={errors.password?.message}
-              placeholder="Senha"
-            />
-          )}
-          name="password"
-        />
+      <Controller
+        control={control}
+        render={({ field: { onChange, ...restField } }) => (
+          <Input
+            onChangeText={onChange}
+            {...restField}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            placeholder="Senha"
+            secureTextEntry
+          />
+        )}
+        name="password"
+      />
 
-        <Controller
-          control={control}
-          render={({ field: { onChange, ...restField } }) => (
-            <Input
-              onChangeText={onChange}
-              {...restField}
-              error={!!errors.confirm_password}
-              helperText={errors.confirm_password?.message}
-              placeholder="Confirmar senha"
-            />
-          )}
-          name="confirm_password"
-        />
+      <Controller
+        control={control}
+        render={({ field: { onChange, ...restField } }) => (
+          <Input
+            onChangeText={onChange}
+            {...restField}
+            error={!!errors.confirm_password}
+            helperText={errors.confirm_password?.message}
+            placeholder="Confirmar senha"
+            secureTextEntry
+          />
+        )}
+        name="confirm_password"
+      />
 
-        <Button title="Cadastrar" onPress={handleSubmit(onSubmit)} />
-      </View>
-    </SafeAreaView>
+      <TouchableOpacity style={styles.pressable} onPress={handleSubmit(onSubmit)}>
+        <Text style={styles.pressableText}>
+          {
+            isSubmitting ? <ActivityIndicator size={24} color="#FFF" /> : 'Cadastrar'
+          }
+        </Text>
+      </TouchableOpacity>
+      {
+        error ? (
+          <Text style={styles.error}>
+            {error}
+          </Text>
+        ) : null
+      }
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    gap: 16
+    padding: 32,
+    gap: 16,
+    width: '100%',
+  },
+  pressable: {
+    borderRadius: 8,
+    backgroundColor: '#044557',
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pressableText: {
+    fontWeight: '200',
+    color: '#FAFAFA',
+    fontSize: 16
+  },
+  error: {
+    textAlign: 'center',
+    color: 'red',
+    fontSize: 16
   }
 });
 

@@ -56,9 +56,19 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="form"
+        name="register"
         options={{
-          title: 'form',
+          title: 'Register',
+          headerShown: false,
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+
+      <Tabs.Screen
+        name="login"
+        options={{
+          title: 'Login',
+          headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />

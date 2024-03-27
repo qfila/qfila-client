@@ -28,12 +28,11 @@ const styles = StyleSheet.create({
     gap: 1
   },
   input: {
-    height: 40,
-    borderColor: 'gray',
-    borderRadius: 4,
+    height: 48,
+    borderColor: '#9a9a9a',
+    borderRadius: 8,
     borderWidth: 1,
     paddingHorizontal: 16,
-    paddingVertical: 20,
   },
   errorText: {
     color: 'red',
