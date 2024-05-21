@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from './ui/inputs';
 import api from '@/modules/api';
 import { useRouter } from 'expo-router';
+import SecureStore from 'expo-secure-store';
 
 const yupSchema = yup.object({
   email: yup.string().email('Email inválido').required('Email é obrigatório.'),
@@ -24,6 +25,14 @@ const yupSchema = yup.object({
 
 type YupSchemaType = yup.InferType<typeof yupSchema>;
 
+type LoginResponse = {
+  id: string;
+  username: string;
+  email: string;
+  role: string;
+  accessToken: string;
+}
+
 function SignInForm() {
   const [error, setError] = useState('');
   const router = useRouter()
@@ -40,10 +49,14 @@ function SignInForm() {
     try {
       setError('');
 
-      await api.post('/auth/login', {
+      const response = await api.post<LoginResponse>('/auth/login', {
         email,
         password,
       });
+
+      // await SecureStore.setItemAsync('@qfila/auth_token', response.data.accessToken)
+      // await SecureStore.setItemAsync('@qfila/username', response.data.username)
+
       router.replace('/home')
     } catch (error) {
       console.error(error);
