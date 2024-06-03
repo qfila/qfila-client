@@ -7,6 +7,7 @@ import { Input } from './ui/inputs';
 import api from '@/modules/api';
 import { useRouter } from 'expo-router';
 import SecureStore from 'expo-secure-store';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const yupSchema = yup.object({
   email: yup.string().email('Email inválido').required('Email é obrigatório.'),
@@ -45,6 +46,8 @@ function SignInForm() {
     resolver: yupResolver(yupSchema),
   });
 
+  const { setToken } = useAuthStore()
+
   const onSubmit = async ({ email, password }: YupSchemaType) => {
     try {
       setError('');
@@ -56,8 +59,8 @@ function SignInForm() {
 
       // await SecureStore.setItemAsync('@qfila/auth_token', response.data.accessToken)
       // await SecureStore.setItemAsync('@qfila/username', response.data.username)
-
-      router.replace('/home')
+      setToken(response.data.accessToken)
+      router.replace('/')
     } catch (error) {
       console.error(error);
       setError('Erro inesperado na API')
@@ -120,16 +123,16 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   pressable: {
-    borderRadius: 8,
+    borderRadius: 4,
     backgroundColor: '#044557',
-    height: 48,
+    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
   pressableText: {
-    fontWeight: '200',
     color: '#FAFAFA',
-    fontSize: 16
+    fontFamily: 'Poppins-Light',
+    fontSize: 14
   },
   error: {
     textAlign: 'center',

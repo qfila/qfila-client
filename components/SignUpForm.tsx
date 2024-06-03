@@ -162,21 +162,21 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   pressable: {
-    borderRadius: 8,
+    borderRadius: 4,
     backgroundColor: '#044557',
-    height: 48,
+    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
   pressableText: {
-    fontWeight: '200',
     color: '#FAFAFA',
-    fontSize: 16
+    fontFamily: 'Poppins-Light',
+    fontSize: 14
   },
   error: {
     textAlign: 'center',
     color: 'red',
-    fontSize: 16
+    fontSize: 14
   }
 });
 

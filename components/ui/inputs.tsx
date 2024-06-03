@@ -28,9 +28,9 @@ const styles = StyleSheet.create({
     gap: 1
   },
   input: {
-    height: 48,
+    height: 40,
     borderColor: '#9a9a9a',
-    borderRadius: 8,
+    borderRadius: 4,
     borderWidth: 1,
     paddingHorizontal: 16,
   },

@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 import { Text, View } from '@/components/Themed';
 import SignInForm from '@/components/SignInForm';
-
 export default function FormScreen() {
   return (
     <View style={styles.container}>
@@ -29,10 +28,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   title: {
-    fontSize: 48
+    fontSize: 48,
+    fontFamily: 'Poppins-Light',
+    lineHeight: 60
   },
   subtitle: {
     fontSize: 24,
-    color: '#777'
+    color: '#777',
+    fontFamily: 'Poppins-Light',
+    lineHeight: 30
   }
 });

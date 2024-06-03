@@ -7,7 +7,7 @@ export default function FormScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <Text style={styles.title}>QFila</Text>
+        <Text style={styles.title}>QFILA</Text>
         <Text style={styles.subtitle}>
           Cadastro
         </Text>
@@ -29,10 +29,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   title: {
-    fontSize: 48
+    fontSize: 48,
+    fontFamily: 'Poppins-Light',
+    lineHeight: 60
   },
   subtitle: {
     fontSize: 24,
-    color: '#777'
+    color: '#777',
+    fontFamily: 'Poppins-Light',
+    lineHeight: 30
   }
 });
