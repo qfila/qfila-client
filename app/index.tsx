@@ -17,14 +17,12 @@ function getPathFromUrl(url: string) {
 }
 
 export default function HomeScreen() {
-  const [pathname, setPathname] = useState<string | null>('')
+  const [pathname, setPathname] = useState<string | null>('/')
   const router = useRouter()
 
   const webviewRef = useRef(null)
 
   const { token, setToken } = useAuthStore()
-
-  if(!token) router.replace('/login')
 
   const injectJavaScript = `
     (function() {
@@ -66,6 +64,7 @@ export default function HomeScreen() {
         injectedJavaScriptBeforeContentLoaded={injectJavaScript}
         injectedJavaScript={injectJavaScript}
         onNavigationStateChange={handleNavigationStateChange}
+        onLoadStart={() => !token && router.replace('/login')}
       />
       {pathname === '/' && (
         <TouchableOpacity style={styles.pressable} onPress={logOut}>
