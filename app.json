@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "teste-EXPO",
-    "slug": "teste-EXPO",
+    "name": "QFilaClient",
+    "slug": "QFilaClient",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.pedrop07.QFilaClient"
     },
     "web": {
       "bundler": "metro",
@@ -30,10 +31,19 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "34e5b90f-fc78-4c2a-a9d4-47488d3d9775"
+      }
     }
   }
 }
